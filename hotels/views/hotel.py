@@ -33,6 +33,6 @@ class HotelDeleteView(generics.DestroyAPIView):
         hotel = self.get_queryset().filter(id=pk).first()
         if hotel:
             hotel.delete()
-            return Response({'message':"Hotel succesfully removed"}, status.HTTP_200_OK)
+            # return Response({'message':"Hotel succesfully removed"}, status.HTTP_200_OK)
     
 

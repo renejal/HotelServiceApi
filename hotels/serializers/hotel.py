@@ -14,6 +14,7 @@ class HotelListSerializer(serializers.Serializer):
     bedrooms = serializers.ListField(child = BedroomSerializer(), required=False)
 
 
+
 class HotelBedroomSerializer(serializers.Serializer):
     bedrooms = serializers.ListField(child = BedroomSerializer() )
     name = serializers.CharField(max_length = 50) 
