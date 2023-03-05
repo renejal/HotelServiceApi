@@ -1,14 +1,14 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from bookings.serializers.booking import BookingSerializers
+from bookings.serializers.booking import BookingSerializers, BookingListSerializer
 from bookings.models import Booking
 from utils.http_response import HttpResponse
 
 # Create your views here.
 class BookingListApiView(generics.ListAPIView):
     """Obtener las reservas de un hotel del usuario que se haya logeado"""
-    serializer_class = BookingSerializers
+    serializer_class=BookingListSerializer
     queryset = Booking.objects.all() # Todo fialter por usuario
 
 

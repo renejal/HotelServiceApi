@@ -10,6 +10,17 @@ from django.db import transaction
 from utils.logger_info import MyLogger
 logger = MyLogger.__call__().get_logger()
 
+class BookingListSerializer(serializers.ModelSerializer):
+    emergency_contacts = EmergencyContactSerializer()
+    """ many = true indica que es una relacion de uno a muchos y es espera varios objeto de esta relacion
+        read_only = True Indica que es de solo lectura y no se puede modicar en los datos 
+    """
+    guests = GuestSerializer(many = True, read_only = True) 
+    class Meta:
+        model = Booking
+        fields = '__all__'
+
+
 class BookingSerializers(serializers.ModelSerializer):
     emergency_contacts = EmergencyContactSerializer()
     guests = serializers.ListField(child = GuestSerializer())
