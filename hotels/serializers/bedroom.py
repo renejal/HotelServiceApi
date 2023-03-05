@@ -4,19 +4,25 @@ from django.db import transaction
 from hotels.models.bedroom import Bedroom
 from hotels.models.hotel import Hotel
 
-
+class BedroomListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bedroom 
+        fields = '__all__'
 class BedroomSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required = False)
     base_cost = serializers.FloatField(required=True)
     tax = serializers.FloatField(required=True)
     type = serializers.CharField(required=True)
     location = serializers.CharField(required=True)
+    state = serializers.CharField(required=False)
 
-class BedroomSerializersList(serializers.Serializer):
+
+class BedroomCreateSerializer(serializers.Serializer):
     bedrooms = serializers.ListField(child = BedroomSerializer())
 
-    def create(self, validated_data, hotel_id: int):
+    def create(self, validated_data, hotel_id: dict):
         with transaction.atomic():
-            hotel = Hotel.objects.filter(id = hotel_id)
+            hotel = Hotel.objects.get(id=hotel_id)
             if hotel:
                 bedrooms_data = validated_data["bedrooms"]
                 bedrooms=[
@@ -25,3 +31,9 @@ class BedroomSerializersList(serializers.Serializer):
                 Bedroom.objects.bulk_create(bedrooms)
             else:
                 raise ValidationError({"message":f"No se ha encontrado un hotel con el id {hotel_id}"})
+            return True
+
+class BedroomUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bedroom
+        fields = "__all__"

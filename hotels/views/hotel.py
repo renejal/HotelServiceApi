@@ -1,7 +1,9 @@
 from rest_framework import generics
 from rest_framework import status
+from rest_framework.views import APIView
 from utils.http_response import HttpResponse
-from hotels.serializers.hotel import HotelListSerializer, HotelSerializerUpdate, HotelBedroomSerializer
+from rest_framework.request import Request
+from hotels.serializers.hotel import HotelListSerializer, HotelSerializerUpdate, HotelBedroomSerializer 
 from hotels.models.hotel import Hotel
 from utils.logger_info import MyLogger
 
@@ -18,7 +20,7 @@ class HotelCreateApiView(generics.CreateAPIView):
 class HotelListApiView(generics.ListAPIView):
     serializer_class = HotelListSerializer
     def get_queryset(self):
-        result = Hotel.objects.filter()
+        result = Hotel.objects.filter(state = True)
         return result
 
 class HotelUpdateView(generics.UpdateAPIView):
@@ -33,6 +35,16 @@ class HotelDeleteView(generics.DestroyAPIView):
         hotel = self.get_queryset().filter(id=pk).first()
         if hotel:
             hotel.delete()
-            # return Response({'message':"Hotel succesfully removed"}, status.HTTP_200_OK)
-    
+            return HttpResponse.Success({'message':"Hotel succesfully removed"})
+        return HttpResponse.ServerError({'message':"Hotel no encontrado"})
+
+class HotelStateUpdateView(APIView):
+    def put(self, request: Request, *args, **kwargs):
+        hotel = Hotel.objects.get(id = kwargs.get("hotel_id"))
+        if hotel:
+            hotel.state = False if hotel.state else True
+            hotel.save()
+            status = "habilitado" if hotel.state else "desabilitado"
+            return HttpResponse.Success({"message": f"Hotel id:{kwargs.get('hotel_id')} {status}"})
+        return HttpResponse.Success({"message": f"hotel {kwargs.get('hotel_id')} no encontrado"})
 

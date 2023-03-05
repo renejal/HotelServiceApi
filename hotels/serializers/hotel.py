@@ -2,19 +2,17 @@ from hotels.models.hotel import Hotel
 from hotels.models.bedroom import Bedroom
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
-from hotels.serializers.bedroom import BedroomSerializer
+from hotels.serializers.bedroom import BedroomSerializer, BedroomListSerializer
 from django.db import transaction
 from utils.http_response import HttpResponse
 
-class HotelListSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=50, required=False)
-    checkin = serializers.TimeField(required=False)
-    checkout = serializers.TimeField(required=False)
-    hotel = serializers.PrimaryKeyRelatedField(required=False)
-    bedrooms = serializers.ListField(child = BedroomSerializer(), required=False)
+class HotelListSerializer(serializers.ModelSerializer):
+    bedrooms = BedroomSerializer(many=True, read_only=True)
 
-
-
+    class Meta:
+        model = Hotel
+        fields = '__all__'
+    
 class HotelBedroomSerializer(serializers.Serializer):
     bedrooms = serializers.ListField(child = BedroomSerializer() )
     name = serializers.CharField(max_length = 50) 
@@ -35,10 +33,10 @@ class HotelBedroomSerializer(serializers.Serializer):
                     raise ValidationError({"message":f"ya hay un hotel registrado con este nombre: {validated_data['name']}"})
         return hotel 
 
-
 class HotelSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = Hotel
         exclude = ('create_date','modified_date','deleted_date')
+
 
     

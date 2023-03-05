@@ -1,19 +1,24 @@
-from django.shortcuts import render
-from bookings.serializers.booking import BookingSerializers
-from bookings.models import Booking
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from bookings.serializers.booking import BookingSerializers
+from bookings.models import Booking
+from utils.http_response import HttpResponse
 
 # Create your views here.
 class BookingListApiView(generics.ListAPIView):
+    """Obtener las reservas de un hotel del usuario que se haya logeado"""
     serializer_class = BookingSerializers
-    def get_queryset(self):
-        result = Booking.objects.filter()
-        return result 
+    queryset = Booking.objects.all() # Todo fialter por usuario
+
 
 class BookingCreateApiView(generics.CreateAPIView):
     serializer_class = BookingSerializers
-    queryset = Booking.objects.all()
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data = request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return HttpResponse.Success({"message":"Se creo reserva de forma correcta"})
 
 class BookingDestroyApiView(generics.CreateAPIView):
     def get_queryset(self):
