@@ -5,9 +5,10 @@ from users.models import User
 
 class Hotel(BaseModel):
     name = models.CharField("name", max_length=50, null=False, unique=True)
-    checkin = models.TimeField(null=False)
-    checkout = models.TimeField(null=False)
     users = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Hotels", blank=True, null=True)
+    checkin = models.TimeField(null=True)
+    checkout = models.TimeField(null=True)
+    destination_city = models.CharField(null=True, max_length=30)
 
     class Meta:
         verbose_name = 'Hotel'

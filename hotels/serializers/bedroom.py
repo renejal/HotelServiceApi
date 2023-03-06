@@ -9,13 +9,14 @@ class BedroomListSerializer(serializers.ModelSerializer):
         model = Bedroom 
         fields = '__all__'
 class BedroomSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required = False)
     base_cost = serializers.FloatField(required=True)
     tax = serializers.FloatField(required=True)
     type = serializers.CharField(required=True)
     location = serializers.CharField(required=True)
-    state = serializers.CharField(required=False)
-
+    state = serializers.BooleanField(required=False)
+    entry_date = serializers.DateField(required=True)
+    departure_date = serializers.DateField(required = True)
+    person_count = serializers.IntegerField(required = True)
 
 class BedroomCreateSerializer(serializers.Serializer):
     bedrooms = serializers.ListField(child = BedroomSerializer())

@@ -8,16 +8,18 @@ from utils.http_response import HttpResponse
 
 class HotelListSerializer(serializers.ModelSerializer):
     bedrooms = BedroomSerializer(many=True, read_only=True)
-
     class Meta:
         model = Hotel
-        fields = '__all__'
+        exclude = ('create_date','modified_date','deleted_date')
     
 class HotelBedroomSerializer(serializers.Serializer):
+    """crea los hoteles con sus respectivas habitaciones"""
+
     bedrooms = serializers.ListField(child = BedroomSerializer() )
     name = serializers.CharField(max_length = 50) 
-    checkin = serializers.TimeField(required = True)
-    checkout = serializers.TimeField(required = True)
+    checkin = serializers.TimeField(required=True)
+    checkout = serializers.TimeField(required=True)
+    destination_city= serializers.CharField(required=True, max_length=20)
    
     def create(self, validated_data):
         bedrooms_data = validated_data.pop('bedrooms')

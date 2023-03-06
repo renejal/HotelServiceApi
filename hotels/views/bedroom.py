@@ -15,7 +15,7 @@ class BedRoomCreateApiView(generics.CreateAPIView):
       logger.info(request.data)
       serializer = self.get_serializer(data= request.data)
       if serializer.is_valid():
-         serializer.create(serializer.data, hotel_id=4)
+         serializer.create(serializer.data, hotel_id = kwargs.get("hotel_id"))
       return Response({"message": "Habitaciones creadas de forma correcta"})
 
 class BedRoomUpdateApiView(generics.UpdateAPIView):

@@ -8,6 +8,10 @@ class Bedroom(BaseModel):
     type = models.CharField(verbose_name="type",max_length=50, blank=False, null=False)
     location = models.CharField(verbose_name="location",max_length=30, blank=False, null=False)
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='bedrooms', default=-1)
+    entry_date = models.DateField(null = True, blank=True)
+    departure_date = models.DateField(null = True, blank=True)
+    person_count = models.IntegerField(null=True, blank=True, default=12)
+    
 
     class Meta:
         verbose_name = 'bedroom'

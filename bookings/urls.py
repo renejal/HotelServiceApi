@@ -2,10 +2,6 @@ from django.urls import path
 from bookings.views.booking import BookingListApiView, BookingCreateApiView, BookingDestroyApiView, BookingUpdateApiView
 from bookings.views.guest import GuestListApiView, GuestCreateApiView, GuestDestroyApiView, GuesUpdatApiView
 
-
-
-# booking
-
 urlpatterns = [
     path('list/', BookingListApiView.as_view(), name='booking list'),
     path('create/', BookingCreateApiView.as_view(), name="booking create" ),
@@ -13,8 +9,6 @@ urlpatterns = [
     path('update/', BookingUpdateApiView.as_view(), name= "booking update"),
 ]
 #bedrooms
-
-
 # guest
 urlpatterns +=[
     path('guest/list/',GuestListApiView.as_view(), name='guest list'),
