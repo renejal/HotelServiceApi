@@ -14,11 +14,21 @@ SECRET_KEY = 'django-insecure-#m5cec25yursywvbqr4oj4q(2m2t$u(dwq%ivyk3)i^(mg98b&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # config cors
-ALLOWED_HOSTS = ['10.0.0.4','20.89.75.99']
+# ALLOWED_HOSTS = ['10.0.0.4','20.89.75.99','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ORIGINS =[ "http://20.89.75.99:8000", "://localhost:8000"]
+CORS_ORIGIN_ORIGINS =[ "http://20.89.75.99:8000", ":http://localhost:8000"]
 CORS_ORIGIN_WHITELIST = [ "http://20.89.75.99:8000", "http://localhost:8000"]
+
+# Email
+TEMPLATES_PATH=BASE_DIR / "templates"
+TEMPLATE_NAME="report_errors.html"
+# config emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 
 
 # Application definition
@@ -63,7 +73,7 @@ ROOT_URLCONF = 'conf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
