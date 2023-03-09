@@ -26,6 +26,6 @@ urlpatterns = [
 
 urlpatterns += [
    path('admin/',admin.site.urls),
-   path('hotel/',include('hotels.urls')),
-   path('bookings/',include('bookings.urls')),
+   path('apphotel/',include('hotels.urls')),
+   path('appbooking/',include('bookings.urls')),
 ]

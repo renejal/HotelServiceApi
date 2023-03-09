@@ -10,13 +10,6 @@ from utils import send_email
 
 # Create your views here.
 
-class BookingListApiView(APIView):
-    """Obtener las reservas de un hotel del usuario que se haya logeado"""
-    serializer_class=BookingListSerializer # todo elimianr
-    def get(self, request, *args, **kwargs):
-        queryset = Booking.objects.all() # Todo filter by date
-        return Response({"bookings": BookingListSerializer(queryset, many=True).data})
-
 class BookingCreateApiView(generics.CreateAPIView):
     serializer_class = BookingSerializers
     def post(self, request, *args, **kwargs):
@@ -26,6 +19,13 @@ class BookingCreateApiView(generics.CreateAPIView):
             serializer.save()
             send_email.send_email(request.data["guests"][0]["name"],request.data["guests"][0]["email"])
         return HttpResponse.Success({"message":"Se creo reserva de forma correcta"})
+
+class BookingListApiView(APIView):
+    """Obtener las reservas de un hotel del usuario que se haya logeado"""
+    serializer_class=BookingListSerializer # todo elimianr
+    def get(self, request, *args, **kwargs):
+        queryset = Booking.objects.all() # Todo filter by date
+        return Response({"bookings": BookingListSerializer(queryset, many=True).data})
 
 class BookingDestroyApiView(generics.CreateAPIView):
     def get_queryset(self):

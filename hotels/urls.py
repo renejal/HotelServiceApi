@@ -4,11 +4,11 @@ from hotels.views.bedroom import BedRoomCreateApiView, BedRoomUpdateApiView, Bed
 
 
 urlpatterns = [
+    path('create/', HotelCreateApiView.as_view(), name='Hotel create'),
     path('list_all/', HotelListApiView.as_view(), name='Hotel'),
     path('update/<int:pk>/', HotelUpdateView.as_view(), name='Hotel update'),
-    path('delete/', HotelDeleteView.as_view(), name='Hotel Delete'),
-    path('create/', HotelCreateApiView.as_view(), name='Hotel create'),
     path('state/<int:hotel_id>/', HotelStateUpdateView.as_view(), name="Hotel State"),
+    path('delete/', HotelDeleteView.as_view(), name='Hotel Delete'),
 ]
 urlpatterns += [
     # path('bedroom/list', BedRoomListApiView.as_view(), name='bedroom list'),
@@ -17,3 +17,7 @@ urlpatterns += [
     path('bedroom/state/<int:hotel_id>/<int:bedroom_id>/', BedRoomStateUpdate.as_view(), name="bedroom state")
     # path('bedroom/delete', BedRoomDestroyApiView.as_view(), name="bedroom delete"),
 ]
+
+
+
+

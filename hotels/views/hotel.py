@@ -15,6 +15,8 @@ from drf_yasg.utils import swagger_auto_schema
 logger = MyLogger.__call__().get_logger()
 
 class HotelCreateApiView(generics.CreateAPIView):
+    """Create a hotel with the list of rooms"""
+
     serializer_class = HotelBedroomSerializer
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data = request.data)
