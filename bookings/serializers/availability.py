@@ -10,6 +10,7 @@ class AvailabilitySerializer(serializers.Serializer):
     bedrooms = BedroomSerializer() 
 
 
+
     
 
 
