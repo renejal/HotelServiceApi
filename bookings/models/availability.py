@@ -1,10 +1,10 @@
 from base.models import BaseModel
-from hotels.models.hotel import Hotel
+from bookings.models.booking import Booking
 from hotels.models.bedroom import Bedroom
 from django.db import models
 
 class Availibility(BaseModel):
-    hotels = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    bookings = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True)
     bedrooms = models.ForeignKey(Bedroom, on_delete=models.CASCADE)
     entry_date = models.DateField(null = True, blank=True)
     departure_date = models.DateField(null = True, blank=True)

@@ -1,10 +1,8 @@
 from rest_framework import serializers
 from bookings.serializers.emergency_contact import EmergencyContactSerializer
 from bookings.serializers.guest import GuestSerializer
-from bookings.serializers.availability import AvailabilityCreateSerializer
 from bookings.models.booking import Booking
 from hotels.models.hotel import Hotel
-from hotels.models.bedroom import Bedroom
 from bookings.models.emergency_contac import EmergencyContac
 from bookings.models.guest import Guest
 from bookings.models.availability import Availibility
@@ -23,11 +21,14 @@ class BookingListSerializer(serializers.ModelSerializer):
         model = Booking
         fields = '__all__'
 
-
+class BookingAvailability(serializers.Serializer):
+    entry_date = serializers.DateField()
+    departure_date = serializers.DateField()
+    person_count = serializers.IntegerField()
 class BookingSerializers(serializers.Serializer):
     emergency_contacts = EmergencyContactSerializer()
     guests = serializers.ListField(child = GuestSerializer())
-    availability = AvailabilityCreateSerializer()
+    availability = BookingAvailability()
     bedrooms = serializers.ListField(child=serializers.IntegerField(),
                                      max_length = 5, min_length=1, allow_empty = False)
     hotels = serializers.IntegerField()
@@ -63,7 +64,7 @@ class BookingSerializers(serializers.Serializer):
                 if obj_bedrooms:
                     for bedroom in obj_bedrooms:
                         logger.debug(bedroom)
-                        Availibility.objects.create(hotels=obj_hotel, 
+                        Availibility.objects.create(bookings=obj_booking, 
                                                     bedrooms=bedroom,
                                                     entry_date=obj_availability["entry_date"],
                                                     departure_date=obj_availability["departure_date"])

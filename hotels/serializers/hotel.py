@@ -6,6 +6,11 @@ from hotels.serializers.bedroom import BedroomSerializer, BedroomListSerializer
 from django.db import transaction
 from utils.http_response import HttpResponse
 
+class HotelAvailabilitySerialicer(serializers.Serializer):
+    id = serializers.IntegerField()
+
+    
+
 class HotelListSerializer(serializers.ModelSerializer):
     bedrooms = BedroomSerializer(many=True, read_only=True)
     class Meta:
