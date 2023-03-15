@@ -8,7 +8,7 @@ urlpatterns = [
     path('list_all/', HotelListApiView.as_view(), name='Hotel'),
     path('update/<int:pk>/', HotelUpdateView.as_view(), name='Hotel update'),
     path('state/<int:hotel_id>/', HotelStateUpdateView.as_view(), name="Hotel State"),
-    path('delete/', HotelDeleteView.as_view(), name='Hotel Delete'),
+    path('delete/<int:pk>/', HotelDeleteView.as_view(), name='Hotel Delete'),
 ]
 urlpatterns += [
     # path('bedroom/list', BedRoomListApiView.as_view(), name='bedroom list'),

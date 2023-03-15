@@ -13,7 +13,6 @@ class HotelListSerializer(serializers.ModelSerializer):
         exclude = ('create_date','modified_date','deleted_date')
     
 class HotelBedroomSerializer(serializers.Serializer):
-
     bedrooms = serializers.ListField(child = BedroomSerializer() )
     name = serializers.CharField(max_length = 50, required=True) 
     checkin = serializers.TimeField(required=True)
@@ -36,7 +35,7 @@ class HotelBedroomSerializer(serializers.Serializer):
 class HotelSerializerUpdate(serializers.ModelSerializer):
     class Meta:
         model = Hotel
-        exclude = ('create_date','modified_date','deleted_date')
+        exclude = ('create_date','modified_date','deleted_date','users','state','id')
 
 
     

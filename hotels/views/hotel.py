@@ -44,7 +44,7 @@ class HotelListApiView(APIView):
         if entry_date and departure_date:
             if entry_date > departure_date:
                 return HttpResponse.Success({"message": "la fecha de ingreso no puede se mayor a la fecha de salida"})
-        queryset = Hotel.objects.filter(bedrooms__state = True).distinct()
+        queryset = Hotel.objects.filter(state = True).distinct()
         if entry_date and queryset:
             entry_date = datetime.strptime(entry_date,"%Y-%m-%d")
             queryset = queryset.filter(bedrooms__entry_date__gte = entry_date).distinct() # lt > , lte >=
@@ -73,7 +73,11 @@ class HotelDeleteView(generics.DestroyAPIView):
 
 class HotelStateUpdateView(APIView):
     def put(self, request: Request, *args, **kwargs):
-        hotel = Hotel.objects.get(id = kwargs.get("hotel_id"))
+        try:
+            hotel = Hotel.objects.get(id = kwargs["hotel_id"])
+        except Hotel.DoesNotExist:
+            hotel = None
+            
         if hotel:
             hotel.state = False if hotel.state else True
             hotel.save()

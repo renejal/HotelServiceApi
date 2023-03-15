@@ -13,7 +13,6 @@ from utils import send_email
 class BookingCreateApiView(generics.CreateAPIView):
     serializer_class = BookingSerializers
     def post(self, request, *args, **kwargs):
-
         serializer = self.get_serializer(data = request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
