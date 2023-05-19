@@ -2,13 +2,9 @@
 import logging
 import os
 import datetime
-import time
 
-
-import logging
 
 class CustomFormatter(logging.Formatter):
-     
     grey = "\x1b[38;20m"
     yellow = "\x1b[33;20m"
     red = "\x1b[31;20m"
@@ -29,20 +25,24 @@ class CustomFormatter(logging.Formatter):
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
 
+
 class SingletonType(type):
     _instances = {}
 
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
-            cls._instances[cls] = super(SingletonType, cls).__call__(*args, **kwargs)
+            cls._instances[cls] = super(SingletonType, cls)\
+                .__call__(*args, **kwargs)
         return cls._instances[cls]
 
+
 class MyLogger(metaclass=SingletonType):
-    """resive como parametro bool si es True cre un archivo de logs por default is False"""
+    """resive como parametro bool si es 
+    True cre un archivo de logs por default is False"""
     _logger = None
     
-    def __init__(self,log_file=False):
-        self._log_file = log_file 
+    def __init__(self, log_file=False):
+        self._log_file = log_file
         self._logger = logging.getLogger("crumbs")
         self._logger.setLevel(logging.DEBUG)
         formatter = logging.Formatter('%(asctime)s [%(levelname)s | %(filename)s | %(funcName)s | %(lineno)d] > %(message)s')
@@ -53,14 +53,13 @@ class MyLogger(metaclass=SingletonType):
             dirname = "./log"
             if not os.path.isdir(dirname):
                 os.mkdir(dirname)
-            fileHandler = logging.FileHandler(dirname + "/log_" + now.strftime("%Y-%m-%d")+".log")
-            fileHandler.setFormatter(formatter)
-            self._logger.addHandler(fileHandler)
+            file_handler = logging.FileHandler(dirname + "/log_" + now.strftime("%Y-%m-%d")+".log")
+            file_handler.setFormatter(formatter)
+            self._logger.addHandler(file_handler)
         # log whit console
-        streamHandler = logging.StreamHandler()
-        streamHandler.setFormatter(CustomFormatter())
-        self._logger.addHandler(streamHandler)
-
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(CustomFormatter())
+        self._logger.addHandler(stream_handler)
 
     def get_logger(self):
         return self._logger
@@ -72,4 +71,4 @@ class MyLogger(metaclass=SingletonType):
 #     logger.info("info message")
 #     logger.warning("warning message")
 #     logger.error("error message")
-#     logger.critical("critical message") 
+#     logger.critical("critical message")
