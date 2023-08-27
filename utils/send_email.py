@@ -18,6 +18,6 @@ def send_email(name, correo):
     # Iniciar la conexión segura vía TLS.
     smtp.starttls()
 
-    smtp.login(remitente, "jyoawjnoojibrsoc")
+    smtp.login(remitente, "zdiowbnthmjhlbxb")
     smtp.sendmail(remitente, destinatario, email.as_string())
     smtp.quit()
